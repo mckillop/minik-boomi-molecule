@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: molecule
+  labels:
+    app: molecule
+spec:
+  selector:
+    matchLabels:
+      app: molecule
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: molecule
+    spec:
+      terminationGracePeriodSeconds: 900
+      volumes:
+        - name: molecule-storage
+          persistentVolumeClaim:
+            claimName: pv-volume
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - image: boomi/molecule
+        imagePullPolicy: Always
+        name: atom-node
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+          requests:
+            cpu: "500m"
+            memory: "768Mi"
+        volumeMounts:
+          - name: molecule-storage
+            mountPath: "/mnt/boomi"
+        readinessProbe:
+          periodSeconds: 10
+          initialDelaySeconds: 10
+          httpGet:
+            path: /_admin/readiness
+            port: 9090
+        livenessProbe:
+          periodSeconds: 60
+          httpGet:
+            path: /_admin/liveness
+            port: 9090
+        env:
+        - name: BOOMI_ATOMNAME
+          value: "boomi-molecule"
+        - name: ATOM_LOCALHOSTID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: INSTALL_TOKEN
+          value: "molecule-f591acbb-c6f4-4360-b44e-cc9488e0c251"
+        - name : BOOMI_ENVIRONMENTID
+          value: "40590140-dc5b-4c49-89f9-47f99641a0d4"
