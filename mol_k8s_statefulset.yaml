@@ -18,7 +18,7 @@ spec:
       volumes:
         - name: molecule-storage
           persistentVolumeClaim:
-            claimName: pv-volume
+            claimName: pv002-volume
       securityContext:
         fsGroup: 1000
       containers:
@@ -57,6 +57,6 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: INSTALL_TOKEN
-          value: "molecule-f591acbb-c6f4-4360-b44e-cc9488e0c251"
+          value: "molecule-42424e31-15cf-4dbb-86eb-81e91fedb157"
         - name : BOOMI_ENVIRONMENTID
           value: "40590140-dc5b-4c49-89f9-47f99641a0d4"
