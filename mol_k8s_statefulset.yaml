@@ -57,6 +57,6 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: INSTALL_TOKEN
-          value: "molecule-71a597f9-2911-486b-ba01-bce3154ab4ef"
+          value: "molecule-263cd670-0a87-4151-bdcd-4fb897211925"
         - name : BOOMI_ENVIRONMENTID
           value: "ae8230f6-bde3-4ab9-8676-ebbac87396a3"
